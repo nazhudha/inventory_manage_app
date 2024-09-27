@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="center-content">
+        <div>
+          <a href="{{ url_for('main.home') }}" class="btn btn-info btn-custom2 btn-custom:hover">Home Page</a>
+          <div class="border border-custom">
+            <h1>Login</h1>
+            <form method="POST">
+              {{ form.hidden_tag() }}
+              
+              <div class="form-group">
+                  {{ form.email.label }} 
+                  {{ form.email(class="form-control") }}
+                  {% for error in form.email.errors %}
+                      <small class="text-danger">{{ error }}</small>
+                  {% endfor %}
+              </div>
+              
+              <div class="form-group">
+                  {{ form.password.label }} 
+                  {{ form.password(class="form-control") }}
+                  {% for error in form.password.errors %}
+                      <small class="text-danger">{{ error }}</small>
+                  {% endfor %}
+              </div>
+              
+              {{ form.submit(class="btn btn-primary") }}
+          </form>
+          <div>
+        </div>
+      </div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home Page</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+    <body>
+        <div class="center-content">
+            <div>
+                <h1>Welcome to Home Page!</h1>
+                <a href="{{ url_for('main.register') }}" class="btn btn-primary btn-custom">Register</a>
+                <a href="{{ url_for('main.login') }}" class="btn btn-secondary btn-custom">Login</a>
+            </div>
+        </div>
+    </body>
+</html>

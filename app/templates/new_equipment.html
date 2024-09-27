@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>New Equipment Page</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <div class="center-content">
+      <div>
+        <a
+          href="{{ url_for('main.dashboard') }}"
+          class="btn btn-info btn-custom2 btn-custom:hover"
+          >Dashboard</a
+        >
+        <div class="border border-custom">
+          <h1>Add New Equipment</h1>
+          <form method="POST">
+            {{ form.hidden_tag() }}
+            
+            <div class="form-group">
+                {{ form.name.label }} 
+                {{ form.name(class="form-control") }}
+                {% for error in form.name.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+        
+            <div class="form-group">
+                {{ form.quantity.label }} 
+                {{ form.quantity(class="form-control") }}
+                {% for error in form.quantity.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+            
+            {% if current_user.role == 'admin' %}
+            <div class="form-group">
+                {{ form.user.label }} 
+                {{ form.user(class="form-control") }}
+                {% for error in form.user.errors %}
+                    <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            {{ form.submit(class="btn btn-primary") }}
+        </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

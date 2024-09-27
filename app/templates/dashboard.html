@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <div class="container center-content">
+      
+      <div class="border-custom">
+        <!-- Logout Button -->
+      <a href="{{ url_for('main.logout') }}" class="btn btn-info btn-custom2 btn-custom:hover">Logout</a>
+        <h1>Dashboard</h1>
+        <p>Welcome, You're logged in as: {{ current_user.username }}!</p>
+
+        <!-- Action Buttons -->
+        <a href="{{ url_for('main.new_equipment') }}" class="btn btn-secondary"
+          >Add New Equipment</a
+        >
+        {% if current_user.role == 'admin' %}
+        <a href="{{ url_for('main.user_list') }}" class="btn btn-secondary"
+          >View All Users</a
+        >
+        {% endif %}
+
+        <!-- Equipment Table -->
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Equipment Name</th>
+              <th>Quantity</th>
+              <th>Assigned To</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for equipment in equipments.items %}
+            <tr>
+              <td>{{ equipment.name }}</td>
+              <td>{{ equipment.quantity }}</td>
+              <td>{{ equipment.owner.username }}</td>
+              <td>
+                <a
+                  href="{{ url_for('main.edit_equipment', id=equipment.id) }}"
+                  class="btn btn-primary"
+                  >Edit</a
+                >
+                {% if current_user.role == 'admin' %}
+                <form
+                  method="POST"
+                  action="{{ url_for('main.delete_equipment', id=equipment.id) }}"
+                  style="display: inline">
+                  <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <!-- Pagination Controls -->
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center">
+            {% if equipments.has_prev %}
+            <li class="page-item">
+              <a
+                class="page-link"
+                href="{{ url_for('main.dashboard', page=equipments.prev_num) }}"
+                aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {% endif %} {% for page_num in equipments.iter_pages() %}
+            <li
+              class="page-item {% if page_num == equipments.page %}active{% endif %}">
+              <a
+                class="page-link"
+                href="{{ url_for('main.dashboard', page=page_num) }}"
+                >{{ page_num }}</a
+              >
+            </li>
+            {% endfor %} {% if equipments.has_next %}
+            <li class="page-item">
+              <a
+                class="page-link"
+                href="{{ url_for('main.dashboard', page=equipments.next_num) }}"
+                aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </body>
+</html>
